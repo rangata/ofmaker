@@ -13,4 +13,10 @@ class Offers extends Model
         'period',
         'customer_id'
     ];
+
+
+    public function products()
+    {
+        return $this->belongsToMany(Products::class, 'product_offer');
+    }
 }

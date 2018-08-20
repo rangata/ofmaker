@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Customers;
+use App\Customer;
 use Illuminate\Http\Request;
 
-class CustomersController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class CustomersController extends Controller
     public function index()
     {
         //
-        $customers = Customers::all();
+        $customers = Customer::all();
         return view('customers.index', compact('customers'));
     }
 
@@ -48,7 +48,7 @@ class CustomersController extends Controller
      */
     public function show($id)
     {
-        $customers = Customers::find($id)->load('offers');
+        $customers = Customer::find($id)->load('offers');
 
 
         return view('customers.show', compact('customers'));
@@ -60,7 +60,7 @@ class CustomersController extends Controller
      * @param  \App\Customers  $customers
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customers $customers)
+    public function edit(Customer $customers)
     {
         //
     }
@@ -72,7 +72,7 @@ class CustomersController extends Controller
      * @param  \App\Customers  $customers
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customers $customers)
+    public function update(Request $request, Customer $customers)
     {
         //
     }
@@ -83,7 +83,7 @@ class CustomersController extends Controller
      * @param  \App\Customers  $customers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customers $customers)
+    public function destroy(Customer $customers)
     {
         //
     }

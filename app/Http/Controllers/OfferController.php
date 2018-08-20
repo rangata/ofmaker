@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Offers;
+use App\Offer;
 use Illuminate\Http\Request;
 
-class OffersController extends Controller
+class OfferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class OffersController extends Controller
      */
     public function index()
     {
-        $offers = Offers::all();
+        $offers = Offer::all()->load(['products']);
 
         $offers = json_encode($offers);
 
@@ -45,22 +45,23 @@ class OffersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Offers  $offers
+     * @param  \App\Offer  $offers
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $offers = Offers::findOrFail($id);
+        $offers = Offer::findOrFail($id)->load(['products']);
+        $offers = json_encode($offers);
         return view('offers.show', compact('offers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Offers  $offers
+     * @param  \App\Offer  $offers
      * @return \Illuminate\Http\Response
      */
-    public function edit(Offers $offers)
+    public function edit(Offer $offers)
     {
         //
     }
@@ -69,10 +70,10 @@ class OffersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Offers  $offers
+     * @param  \App\Offer  $offers
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Offers $offers)
+    public function update(Request $request, Offer $offers)
     {
         //
     }
@@ -80,10 +81,10 @@ class OffersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Offers  $offers
+     * @param  \App\Offer  $offers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Offers $offers)
+    public function destroy(Offer $offers)
     {
         //
     }

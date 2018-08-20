@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Offers extends Model
+class Offer extends Model
 {
     protected $fillable = [
         'offerUID',
@@ -17,6 +17,10 @@ class Offers extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Products::class, 'product_offer');
+        return $this->belongsToMany(Product::class, 'product_offer')
+                ->withPivot(['unitPrice',
+                            'endPrice',
+                            'qty',
+                            'lineTotal']);
     }
 }

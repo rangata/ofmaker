@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a href="#">Виж</a>
+                            <a :href="'/offers/' + offer.id">Виж</a>
                             <a href="#">Редакция</a>
                         </div>
                     </td>

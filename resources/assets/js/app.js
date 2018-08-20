@@ -31,6 +31,7 @@ Vue.use(require('vue-moment'), {
 Vue.component('customers-index', require('./components/customers/customers-index'));
 Vue.component('customers-details', require('./components/customers/customers-details'));
 Vue.component('offers-index', require('./components/offers/offers-index'));
+Vue.component('offers-view', require('./components/offers/offers-view'));
 
 const app = new Vue({
     el: '#app'

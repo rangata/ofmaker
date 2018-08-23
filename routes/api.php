@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('products')->group(function () {
+   Route::get('/', function () {
+
+       $products = \App\Product::all();
+       $products = new \App\Http\Resources\ProductCollection($products);
+       return $products;
+   });
+});

@@ -23,4 +23,9 @@ class Offer extends Model
                             'qty',
                             'lineTotal']);
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

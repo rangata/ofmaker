@@ -16,4 +16,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Offer::class);
     }
+
+    public function price()
+    {
+        return $this->hasMany(Price::class);
+
+    }
 }

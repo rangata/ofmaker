@@ -20,6 +20,11 @@ require('moment/locale/bg')
 import {GridPlugin} from '@syncfusion/ej2-vue-grids';
 import '@syncfusion/ej2-vue-grids/styles/material.css'
 import BootstrapVue from 'bootstrap-vue';
+import Select2 from 'v-select2-component';
+
+import axios from 'axios';
+
+Vue.component('Select2', Select2);
 
 Vue.use(BootstrapVue);
 

@@ -1,15 +1,14 @@
 <template>
     <b-container fluid>
         <b-card>
-            {{ this.offers }}
             <b-card-body>
                 <table>
                     <thead>
                         <tr>
                             <th>№</th>
                             <th>Наименование</th>
-                            <th>Ед. цена с ДДС</th>
                             <th>Кр. клиентска цена</th>
+                            <th>Кол.</th>
                             <th>Общо</th>
                         </tr>
                     </thead>
@@ -20,42 +19,47 @@
                             </td>
                             <td width="800">
                                 <!--{{ fullProductTitle[key] }}-->
+                                <multiselect v-model="fullProductTitle[key]"
+                                             :custome-label="nameWithLang"
+                                             :options="products"
+                                             @input="filler">
 
-                                <input type="text" v-model="fullProductTitle[key]" value="sd" class="form-control">
+                                </multiselect>
                             </td>
                             <td>
-                                <input type="text" v-model="product.pivot.unitPrice" @change="lineTotal(product.id)" class="form-control">
+                                <input type="text" v-model="product.end_customer_price" @change="calcTotal(product.id)" class="form-control">
                             </td>
                             <td>
-                                <input type="number" v-model="product.pivot.qty" @change="lineTotal(product.id)" class="form-control">
+                                <input type="number" v-model="product.qty" @change="calcTotal(product.id)" class="form-control">
                             </td>
                             <td>
-                                {{ product.pivot.qty * product.pivot.unitPrice }}
+                                {{ product.qty * product.end_customer_price }}
                             </td>
                         </tr>
                         <tr>
                             <td>
                             </td>
                             <td>
-                                {{ availableProducts }}
-                                <Select2 v-model="myValue"
-                                         :options="availableProducts"
 
-                                         @change="myChangeEvent($event)"
-                                         @select="mySelectEvent($event)" />
-
+                                <multiselect v-model="selected"
+                                             :custom-label="nameWithLang"
+                                             :options="availableProducts"
+                                             :reset-after="true"
+                                             :selectLabel="'избор'"
+                                @input="filler"
+                                ></multiselect>
 
                             </td>
                             <td>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" v-model="selected.unitPrice">
                             </td>
                             <td>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" v-model="selected.qty">
                             </td>
                         </tr>
                     <tr>
                         <td>
-                            {{ total }}
+                           -- {{ total }}
                         </td>
                     </tr>
                     </tbody>
@@ -66,17 +70,13 @@
 </template>
 
 <script>
-    import Select2 from 'v-select2-component';
 
     export default {
         name: "offers-view",
-        props: ['offers'],
-        components: {Select2},
-
 
         data() {
             return {
-                products: this.offers.products,
+                products: [],
                 // fields: [
                 //     'title',
                 //     {
@@ -95,46 +95,73 @@
                 // ],
                 availableProducts: [],
                 pk: [],
-                myValue: '',
-                myOptions: [{
-                    a: 'bb',
-                    c: 'sdfs'
-                }, 'op2', 'op3'] // or [{id: key, text: value}, {id: key, text: value}]
+                selected: '',
+                productPrice: '',
+                productQty: '',
+                sum: ''
             }
         },
         mounted() {
             axios.get('/api/products')
                 .then(
                     (data) => {
-                        // this.availableProducts = data.data.data
-                        const products = Object.keys(data.data.data).map(i =>{
-                            this.availableProducts.push(data.data.data[i])
-                        })
+                         data.data.data.map(i => {
+
+                            this.products.push({
+                                id: i.id,
+                                label: i.fulltitle,
+                                value: i.id,
+                                lineTotal: '',
+                                qty: 1,
+                                unitPrice: (typeof i.price[0] === "undefined") ? '0.00' : i.price[0].unit_price,
+                                end_customer_price: (typeof i.price[0] === "undefined") ? '0.00' : i.price[0].end_price
+
+                            })
+                             this.availableProducts.push({
+                                 id: i.id,
+                                 label: i.fulltitle,
+                                 value: i.id,
+                                 lineTotal: '',
+                                 qty: 1,
+                                 unitPrice: (typeof i.price[0] === "undefined") ? '0.00' : i.price[0].unit_price,
+                                 end_customer_price: (typeof i.price[0] === "undefined") ? '0.00' : i.price[0].end_price
+                             })
+                        });
+
 
                     }
                 )
                 .catch(
                     (er) => console.log(er)
                 )
+
         },
         methods: {
-            lineTotal(id) {
+            nameWithLang({label, end_customer_price}) {
+                return `${label}, ${end_customer_price}`
+            },
 
+            calcTotal(id) {
                 this.products.map((product, key)=> {
                     if(this.products[key].id === id) {
-                        this.products[key].pivot.lineTotal = this.products[key].pivot.qty * this.products[key].pivot.unitPrice
+                            this.products[key].lineTotal = this.products[key].qty * this.products[key].end_customer_price
+
+                        console.log(product)
                     }
-                    console.log(this.products[key].pivot)
+                    // console.log(this.products[key])
                 })
             },
-            lop(to) {
-                console.log(to)
+            filler() {
+                if(this.products.indexOf(this.selected) === -1) {
+                    this.products.push(this.selected);
+                } else {
+                    this.products[this.products.indexOf(this.selected)].qty +=1;
+                    console.log("ER")
+                }
+                this.selected = '';
             },
-            myChangeEvent(val){
-                console.log("change,",val);
-            },
-            mySelectEvent({id, text}){
-                console.log({id, text})
+            onChange(value){
+
             }
 
         },
@@ -142,12 +169,13 @@
             total() {
                 let sb;
                 return this.products.forEach(product => {
-                   return sb += parseFloat(product.pivot.lineTotal)
+                   sb += parseFloat(product.lineTotal)
+                    return sb
                 });
             },
             fullProductTitle() {
                 return this.products.map(function(item) {
-                    return item.title + ' ' + item.model;
+                    return item.label;
                 });
             }
         }

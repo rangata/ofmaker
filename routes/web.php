@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Resources\CustomerCollection;
+use App\Customer;
+use App\Http\Resources\Customer as CustomerResource;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,8 +38,6 @@ Route::prefix('customers')->group(function () {
 });
 Route::get('/pao', function () {
 
-   $ofero = \App\Offer::find(1)->load('products');
-
-   $ofero->products();
-    return json_encode($ofero);
+    $pro = \App\Product::additionalProducts()->get();
+    dd($pro);
 });

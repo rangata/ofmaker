@@ -28,7 +28,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        return view('offers.create');
     }
 
     /**
@@ -50,8 +50,9 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        $offers = Offer::findOrFail($id)->load(['products']);
-        $offers = json_encode($offers);
+        $offers = Offer::findOrFail($id)->load('products');
+        $offers = new \App\Http\Resources\Offer($offers);
+
         return view('offers.show', compact('offers'));
     }
 

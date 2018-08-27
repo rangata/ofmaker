@@ -22,4 +22,15 @@ class Product extends Model
         return $this->hasMany(Price::class);
 
     }
+
+    public function scopeBasicProducts($query)
+    {
+        return $query->where('type', '=', 'Основен продукт')
+            ->orWhere('type','=','top');
+    }
+    public function scopeAdditionalProducts($query)
+    {
+        return $query->where('type', '=', 'Вторичен/периферия')
+            ->orWhere('type','=','extra');
+    }
 }

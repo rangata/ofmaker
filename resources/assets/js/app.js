@@ -20,11 +20,27 @@ require('moment/locale/bg')
 import {GridPlugin} from '@syncfusion/ej2-vue-grids';
 import '@syncfusion/ej2-vue-grids/styles/material.css'
 import BootstrapVue from 'bootstrap-vue';
-import Select2 from 'v-select2-component';
 
 import axios from 'axios';
+//global registration
+import 'vue-instant/dist/vue-instant.css'
+import VueInstant from 'vue-instant'
+import vuelidate from 'vuelidate';
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 
-Vue.component('Select2', Select2);
+//global registration
+import VueFormWizard from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+Vue.use(VueFormWizard)
+
+Vue.use(VueInstant)
+
+Vue.use(vuelidate);
+
+import Multiselect from 'vue-multiselect'
+Vue.use(Multiselect);
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 Vue.use(BootstrapVue);
 
@@ -33,10 +49,19 @@ Vue.use(require('vue-moment'), {
     moment
 });
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+
+Vue.component('multiselect', Multiselect);
 Vue.component('customers-index', require('./components/customers/customers-index'));
 Vue.component('customers-details', require('./components/customers/customers-details'));
 Vue.component('offers-index', require('./components/offers/offers-index'));
 Vue.component('offers-view', require('./components/offers/offers-view'));
+Vue.component('offers-create', require('./components/offers/offers-create'));
+
+Vue.component('products-index', require('./components/products/products-index'));
+Vue.component('products-create', require('./components/products/products-create'));
+Vue.component('products-basic', require('./components/products/products-basic'));
 
 const app = new Vue({
     el: '#app'

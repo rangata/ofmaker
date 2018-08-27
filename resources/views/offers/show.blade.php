@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-
-   <offers-view :offers=" {{ $offers }}"></offers-view>
+    <offers-view></offers-view>
 @endsection

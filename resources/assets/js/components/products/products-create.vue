@@ -21,7 +21,11 @@
 
                         <div class="" v-if="!$v.product.type.required">Полето е задължително </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="model">Категория</label>
+                        <input type="text" id="category" v-model.trim="$v.product.category.$model" class="form-control">
+                        <div class="" v-if="!$v.product.category.required">Полето е задължително </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="model">Дост. цена</label>
@@ -55,6 +59,7 @@
                 title: '',
                     model: '',
                     type: '',
+                    category: '',
                     price: {
                     unit_price: 0.00,
                         end_customer_price: 0.00,
@@ -66,6 +71,7 @@
                     title: '',
                     model: '',
                     type: '',
+                    category: '',
                     price: {
                         unit_price: 0.00,
                         end_customer_price: 0.00,
@@ -107,6 +113,9 @@
                     required
                 },
                 type: {
+                    required
+                },
+                category: {
                     required
                 },
                 price: {

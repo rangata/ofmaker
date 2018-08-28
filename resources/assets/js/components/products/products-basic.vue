@@ -1,7 +1,9 @@
 <template>
     <b-container>
-        <b-card-group>
-            <b-card v-for="product in basicProducts" :key="product.id" :bg-variant="selectedProducts.indexOf(product) !== -1 ? 'success' : ''">
+        <b-card-group deck>
+            <b-card v-for="product in basicProducts"
+                    :key="product.id"
+                    :bg-variant="selectedProducts.indexOf(product) !== -1 ? 'success' : ''">
                 <div class="do">
                     <h4>
                         {{ product.fulltitle }}
@@ -9,6 +11,9 @@
                     </h4>
                 </div>
                 <b-card-body>
+                    <b-card-img src="http://192.168.10.10/images/Capture.PNG">
+
+                    </b-card-img>
                     <span>
                         {{ product.price[0].unit_price }}
                     </span>

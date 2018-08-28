@@ -19,7 +19,8 @@
                             {{ key + 1}}
                         </td>
                         <td>
-                            {{ product.fulltitle }}
+                            {{ product.fulltitle }} <br>
+                            {{ product.description }}
                         </td>
                         <td>
                             {{ product.price[0].unit_price }}

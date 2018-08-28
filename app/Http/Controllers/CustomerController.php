@@ -26,7 +26,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -37,7 +37,17 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = new Customer();
+        $customer->firstname = $request->firstname;
+        $customer->middlename = $request->middlename;
+        $customer->lastname = $request->lastname;
+        $customer->mobile = $request->mobile;
+        $customer->email = $request->email;
+        $customer->city = $request->city;
+
+        $customer->saveOrFail();
+
+        return view('customers.index');
     }
 
     /**

@@ -18,6 +18,7 @@ class Product extends JsonResource
             'id' => $this->id,
             'fulltitle' => $this->title . ' ' . $this->model,
             'type' => $this->type,
+            'description' => $this->description,
             'price' => Price::collection($this->price)
         ];
     }

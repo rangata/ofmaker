@@ -27,20 +27,24 @@ import 'vue-instant/dist/vue-instant.css'
 import VueInstant from 'vue-instant'
 import vuelidate from 'vuelidate';
 import VueSweetalert2 from 'vue-sweetalert2';
-Vue.use(VueSweetalert2);
-
 //global registration
 import VueFormWizard from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+import Multiselect from 'vue-multiselect'
+
+Vue.use(VueSweetalert2);
+
+
 Vue.use(VueFormWizard)
 
 Vue.use(VueInstant)
 
 Vue.use(vuelidate);
 
-import Multiselect from 'vue-multiselect'
+
 Vue.use(Multiselect);
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+
 
 Vue.use(BootstrapVue);
 
@@ -53,8 +57,11 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 
 
 Vue.component('multiselect', Multiselect);
+
 Vue.component('customers-index', require('./components/customers/customers-index'));
 Vue.component('customers-details', require('./components/customers/customers-details'));
+Vue.component('customers-create', require('./components/customers/customers-create'));
+
 Vue.component('offers-index', require('./components/offers/offers-index'));
 Vue.component('offers-view', require('./components/offers/offers-view'));
 Vue.component('offers-create', require('./components/offers/offers-create'));
@@ -62,6 +69,7 @@ Vue.component('offers-create', require('./components/offers/offers-create'));
 Vue.component('products-index', require('./components/products/products-index'));
 Vue.component('products-create', require('./components/products/products-create'));
 Vue.component('products-basic', require('./components/products/products-basic'));
+Vue.component('products-extras', require('./components/products/products-extras'));
 
 const app = new Vue({
     el: '#app'

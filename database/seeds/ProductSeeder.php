@@ -11,6 +11,13 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-
+        $basicProducts = [
+            'title' => '',
+            'model' => '',
+            'type' => '',
+            'created_at' => '',
+            'updated_at' => '',
+            'category ' => '',
+        ];
     }
 }

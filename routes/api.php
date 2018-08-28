@@ -37,7 +37,7 @@ Route::prefix('products')->group(function () {
 
 Route::prefix('customers')->group(function () {
     Route::get('/', 'API\CustomerController@index');
-//    Route::post('/', 'API\OfferController@store');
+    Route::post('/', 'API\CustomerController@store');
 //    Route::delete('/', 'API\OfferController@destroy');
 //
 //    Route::get('/{id}', 'API\OfferController@show' );

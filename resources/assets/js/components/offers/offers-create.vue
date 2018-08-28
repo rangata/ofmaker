@@ -5,7 +5,7 @@
                 <form-wizard title="Създаване на нова клиентска оферта"
                              subtitle=""
                              stepSize="lg"
-                             :startIndex="1"
+                             :startIndex="3"
                              nextButtonText="Напред"
                              backButtonText="Назад"
                              shape="square"
@@ -14,12 +14,23 @@
                             <b-container fluid>
                                 <b-row>
                                     <b-col>
-                                        <button class="btn btn-success btn-block btn-lg">
+                                        <button @click="showModalNewCustomer()" class="btn btn-success btn-block btn-lg">
                                             <h1>
                                                 <i class="fas fa-user-plus"></i>
                                                 Създаване на НОВ клиент
                                             </h1>
                                         </button>
+
+                                        <b-modal ref="NewCustomerRef" hide-footer size="lg">
+                                            <div class="title" slot="modal-title">
+                                                <h1>Избор на клиент за оферта</h1>
+                                            </div>
+                                            <div class="d-block">
+                                              <customers-create></customers-create>
+                                            </div>
+                                            <b-btn class="mt-3" variant="outline-danger" block @click="hideModalNewCustomer">Затвори</b-btn>
+                                        </b-modal>
+
                                     </b-col>
                                     <b-col>
                                         <!--<div>-->
@@ -47,7 +58,7 @@
                                                 <div class="title" slot="modal-title">
                                                     <h1>Избор на клиент за оферта</h1>
                                                 </div>
-                                                <div class="d-block text-center">
+                                                <div class="d-block">
                                                     <b-list-group>
                                                         <b-list-group-item v-for="customer in customers" :key="customer.id">
                                                             {{ customer.fullname }}
@@ -76,10 +87,7 @@
                     </tab-content>
                     <tab-content title="Избор на шаблон за оферта">
                         <b-container fluid>
-                            <pre>
-                                <!--{{ offerBoilerplate }}-->
-                                {{ validity }}
-                            </pre>
+
                             <b-form>
 
                                <b-row>
@@ -105,6 +113,7 @@
 
                                        </fieldset>
                                    </b-col>
+
                                    <b-col>
                                        <b-col>
                                            <fieldset>
@@ -123,7 +132,9 @@
                                            </fieldset>
                                        </b-col>
                                    </b-col>
+
                                </b-row>
+
                                 <b-form-group label="Начин на плащане" label-for="paymentMethods">
 
                                     <b-form-select id="paymentMethods"
@@ -133,7 +144,9 @@
 
                                     </b-form-select>
                                 </b-form-group>
+
                                 {{ paymentMethod }}<br>
+
                                 <div class="fop" v-if="paymentMethod === 'Разсрочено'">
                                     <h3>Как ще се разберем?</h3>
                                     <b-form-group label="Radios using sub-components">
@@ -151,6 +164,7 @@
                                     <b-form-select id="validity"
                                                    :options="validityPeriods"
                                                    size="lg"
+                                                   @change="validity(validFrom)"
                                                    v-model="period">
 
                                     </b-form-select>
@@ -168,7 +182,10 @@
                                                 v-model="validFrom">
 
                                     </datepicker>
-                                  {{ validUntil }}
+
+                                    {{ validUntil }}
+
+
                                 </b-form-group>
                             </b-form>
                         </b-container>
@@ -186,9 +203,9 @@
                     <tab-content title="Допълнително оборудване">
                         <b-container fluid>
                             <h1>
-                                Избор на основно оборудване
+                                допълнително оборудване
                             </h1>
-                            <products-basic></products-basic>
+                            <products-extras></products-extras>
                         </b-container>
                     </tab-content>
                     <tab-content title="Начин на плащане и валидност на оферта">
@@ -271,6 +288,44 @@
                         text: '3 месеца(90 дни)',
                         value: 90
                     },
+                    {
+                        text: '4 месеца(120 дни)',
+                        value: 120
+                    },
+
+                    {
+                        text: '5 месеца(150 дни)',
+                        value: 150
+                    },
+                    {
+                        text: '6 месеца(180 дни)',
+                        value: 180
+                    },
+                    {
+                        text: '7 месеца(210 дни)',
+                        value: 210
+                    },
+                    {
+                        text: '8 месеца(240 дни)',
+                        value: 240
+                    },
+                    {
+                        text: '9 месеца(270 дни)',
+                        value: 270
+                    },
+                    {
+                        text: '10 месеца(300 дни)',
+                        value: 300
+                    },
+                    {
+                        text: '11 месеца(330 дни)',
+                        value: 330
+                    },
+                    {
+                        text: '12 месеца(360 дни)',
+                        value: 360
+                    },
+
                 ],
                 validFrom: '',
                 nowDate: moment().format("DD.MM.YYYY"),
@@ -291,6 +346,10 @@
         },
         methods: {
 
+            calcEndPeriod(date, period) {
+                return moment(date).add(period, 'days');
+
+            },
             customDate(date) {
 
                 return moment(date).format("DD.MM.YYYY");
@@ -327,9 +386,16 @@
             hideModal () {
                 this.$refs.myModalRef.hide()
             },
+
+            showModalNewCustomer () {
+                this.$refs.NewCustomerRef.show()
+            },
+            hideModalNewCustomer () {
+                this.$refs.NewCustomerRef.hide()
+            },
             validity(date) {
 
-                this.validUntil = moment(date).add(30, 'days').format("DD.MM.YYYY")
+                this.validUntil = moment(date).add(this.period, 'days').format("DD.MM.YYYY")
                 console.log(this.validUntil)
             }
         },

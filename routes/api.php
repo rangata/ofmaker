@@ -32,13 +32,15 @@ Route::prefix('products')->group(function () {
         $basics = new \App\Http\Resources\ProductCollection($basic);
         return $basics;
     });
+    Route::delete('/', 'API\ProductController@destroy');
+
 });
 
 
 Route::prefix('customers')->group(function () {
     Route::get('/', 'API\CustomerController@index');
     Route::post('/', 'API\CustomerController@store');
-//    Route::delete('/', 'API\OfferController@destroy');
+    Route::delete('/{id}', 'API\CustomerController@destroy');
 //
 //    Route::get('/{id}', 'API\OfferController@show' );
 
@@ -51,4 +53,9 @@ Route::prefix('offers')->group(function () {
 
     Route::get('/{id}', 'API\OfferController@show' );
 
+});
+
+Route::prefix('options')->group(function () {
+
+    Route::post('/', 'API\OptionController@store');
 });

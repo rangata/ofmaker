@@ -33,4 +33,9 @@ class Product extends Model
         return $query->where('type', '=', 'Вторичен/периферия')
             ->orWhere('type','=','extra');
     }
+
+    public function options()
+    {
+        return $this->hasMany(Option::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -44,9 +45,16 @@ class ProductController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function show(Products $products)
+    public function show($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product = new \App\Http\Resources\Product($product);
+        $product = $product->toArray($product);
+        dd($product);
+
+
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -78,8 +86,12 @@ class ProductController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products)
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->delete();
+
+        return response()->json(['mesg','ok']);
     }
 }

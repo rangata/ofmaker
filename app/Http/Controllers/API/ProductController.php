@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Option;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,6 +26,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $product = new Product();
         $product->title = $request['product']['title'];
         $product->model = $request['product']['model'];
@@ -41,7 +43,15 @@ class ProductController extends Controller
         $product->price()->save($price);
 //        $product->price()->create($request['product']['price']);
 
-        return response()->json('ok');
+        if ($request->has('options')) {
+            $product->options()->createMany([
+                'optionTitle' => $request['product']['options']->optionTitle,
+                'optionValue' => $request['product']['options']->optionValue,
+                'optionDisplayText' => $request['product']['options']->optionDisplayText,
+                'product_id' => $request['product']['options']->product_id
+            ]);
+        }
+        return response()->json(['message' => 'ok', 'product_id' => $product->id]);
 
     }
 

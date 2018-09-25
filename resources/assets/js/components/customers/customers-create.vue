@@ -66,11 +66,15 @@
                     .then(
                         (data) => {
                             console.log(data)
+                            if(data.status === 200) {
+                                this.$swal('Klienta')
+                                window.location.href = '/customers'
+                            }
                         }
                     )
                     .catch(
                         (er) => {
-                            console.log(er)
+                            console.log(er.request)
                         }
                     )
             }

@@ -30,18 +30,22 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = new Customer();
-        $customer->firstname = $request->firstname;
-        $customer->middlename = $request->middlename;
-        $customer->lastname = $request->lastname;
-        $customer->mobile = $request->mobile;
-        $customer->email = $request->email;
-        $customer->city = $request->city;
+        try {
+            $customer = new Customer();
+            $customer->firstname = $request->firstname;
+            $customer->middlename = $request->middlename;
+            $customer->lastname = $request->lastname;
+            $customer->mobile = $request->mobile;
+            $customer->email = $request->email;
+            $customer->city = $request->city;
 
-        $customer->saveOrFail();
+            $customer->saveOrFail();
 
-        return response()->json('ok');
-
+            return response()->json(['message' => 'Клиентът е запазен успешно!']);
+        }
+        catch (\Exception $e) {
+            return response()->json("json-- ". $e);
+        }
     }
 
     /**
@@ -75,6 +79,11 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $customer = Customer::find($id);
+
+        $customer->delete();
+
+        return response()->json(['mesg','ok']);
     }
 }
